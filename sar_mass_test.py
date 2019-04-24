@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import signal
 import time
+import sys
 
 
 def handler(signum, frame):
@@ -44,3 +45,10 @@ def run_all(diff_file):
                 except:
                     path = 'test' + str(index)
         index+=1
+
+
+if __name__ == '__main__':
+    if len(sys.argv) >= 2:
+        run_all(sys.argv[1])
+    else:
+        print("No input file specified")
