@@ -108,6 +108,8 @@ def parse(file):
         if data['Resources'][resource]['Type'] == 'AWS::Serverless::Function':
             #print(resource)
             if 'Description' in data:
+                with open('logs.txt','a') as f:
+                    f.write(data['Description'] + '\n')
                 if 'rekognition' in data['Description']:
                     output.update({resource:'rekognition'})
                 elif 'Events' in data['Resources'][resource]['Properties']:
@@ -146,17 +148,22 @@ def autorun(repo):
         try:
             parse(repo + '/template.yaml')
         except:
-            print("Bad template")
+            with open('logs.txt','a') as f:
+                f.write('Bad template' + '\n')
             return
         path = repo + '/template.yaml'
     elif Path(repo + "/template.yml").exists():
         try:
             parse(repo + '/template.yml')
         except:
-            print("Bad template")
+            with open('logs.txt','a') as f:
+                f.write('Bad template' + '\n')
             return
         path = repo + '/template.yml'
     else:
+        with open('logs.txt','a') as f:
+            f.write('No template' + '\n')
+        return
         return
     yaml = YAML()
     yaml.preserve_quotes = True

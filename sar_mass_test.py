@@ -27,12 +27,19 @@ def run_all(diff_file):
         os.remove('testdata.yaml')
     index = 0
     for item in results:
-        if 'github' in item[6] and 'tree' not in item[6] and 'packs' not in item[6]:
+        #if 'github' in item[6] and 'tree' not in item[6] and 'packs' not in item[6]:
+        if 'github' in item[6]:
+            if 'tree' in item[6]:
+                item[6] = item[6].split('tree')[0]
             print(index)
+            print(item[0])
+            with open('logs.txt','a') as f:
+                f.write(str(index) + '\n')
+                f.write(item[0] + '\n')
             signal.signal(signal.SIGALRM, handler)
-            signal.alarm(30)
+            signal.alarm(40)
             try:
-                git.Repo.clone_from(results[index][6], path)
+                git.Repo.clone_from(item[6], path)
             except Exception as exc:
                 print(exc)
             signal.alarm(0)
@@ -45,7 +52,8 @@ def run_all(diff_file):
                 except:
                     path = 'test' + str(index)
         index+=1
-
+        with open('logs.txt','a') as f:
+            f.write('---------------------------' + '\n')
 
 if __name__ == '__main__':
     if len(sys.argv) >= 2:
