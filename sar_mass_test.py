@@ -7,6 +7,16 @@ from pathlib import Path
 import signal
 import time
 import sys
+import fnmatch
+
+
+def find(pattern, path):
+    result = []
+    for root, dirs, files in os.walk(path):
+        for name in files:
+            if fnmatch.fnmatch(name, pattern):
+                result.append(os.path.join(root))
+    return result
 
 
 def handler(signum, frame):
@@ -16,6 +26,7 @@ def handler(signum, frame):
 
 def run_all(diff_file):
     results = []
+    repos = []
     with open(diff_file) as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
@@ -27,23 +38,32 @@ def run_all(diff_file):
         os.remove('testdata.yaml')
     index = 0
     for item in results:
-        #if 'github' in item[6] and 'tree' not in item[6] and 'packs' not in item[6]:
         if 'github' in item[6]:
             if 'tree' in item[6]:
                 item[6] = item[6].split('tree')[0]
             print(index)
             print(item[0])
-            with open('logs.txt','a') as f:
-                f.write(str(index) + '\n')
-                f.write(item[0] + '\n')
-            signal.signal(signal.SIGALRM, handler)
-            signal.alarm(40)
-            try:
-                git.Repo.clone_from(item[6], path)
-            except Exception as exc:
-                print(exc)
-            signal.alarm(0)
-            sam_auto_invoke.autorun(path)
+            if item[6] not in repos:
+                repos.append(item[6])
+                with open('logs.txt','a') as f:
+                    f.write(str(index) + '\n')
+                    f.write(item[0] + '\n')
+                signal.signal(signal.SIGALRM, handler)
+                signal.alarm(40)
+                try:
+                    git.Repo.clone_from(item[6], path)
+                except Exception as exc:
+                    print(exc)
+                signal.alarm(0)
+                template_paths = find('template.*',path)
+                for application in template_paths:
+                    with open('logs.txt','a') as f:
+                        f.write(application + '\n')
+                        f.write(str(index) + '\n')
+                    sam_auto_invoke.autorun(application)
+                    index+=1
+                    with open('logs.txt','a') as f:
+                        f.write('---------------------------' + '\n')
             if Path('testdata.yaml').exists():
                 os.remove('testdata.yaml')
             if Path(path).exists():
