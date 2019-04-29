@@ -8,7 +8,7 @@ A research-focused tool for automatically testing AWS SAM applications en masse.
 
 ## Features
 - This test attempts to automate the process of running hundreds of tests in the `sam local` environment, automatically choosing the correct triggers by examining the application template.
-- At this stage the tool just dumps the application's `stderr` to a log file, along with the name of the application.
+- At this stage the tool just dumps the application's `stdout` and `stderr` to a log file, along with the name of the application.
 
 ## Usage
 Use `sar_mass_test` with a dump file as input to test multiple AWS SAM applications. The input file should be in `.csv` format and conform to the format produced by a data dump from the AWS Serverless Application Repository. For compatibility's sake, this just means the 7th cell of each row should be the Github link to the source.  

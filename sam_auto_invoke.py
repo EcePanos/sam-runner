@@ -5,97 +5,97 @@ from pathlib import Path
 
 
 def s3invoke(function, path):
-    subprocess.run("sam local generate-event s3 put|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event s3 delete|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event s3 put|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event s3 delete|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def dbinvoke(function, path):
-    subprocess.run("sam local generate-event dynamodb update|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event dynamodb update|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def apiinvoke(function, path):
-    subprocess.run("sam local generate-event apigateway authorizer|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event apigateway aws-proxy|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event apigateway authorizer|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event apigateway aws-proxy|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def cfninvoke(function, path):
-    subprocess.run("sam local generate-event cloudformation create-request|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudformation create-request|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def cfinvoke(function, path):
-    subprocess.run("sam local generate-event cloudfront ab-test|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event cloudfront access-request-in-response|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event cloudfront http-redirect|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event cloudfront modify-querystring|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event cloudfront modify-response-header|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event cloudfront multiple-remote-calls-aggregate-response|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event cloudfront normalize-querystring-to-improve-cache-hit|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event cloudfront redirect-on-viewer-country|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event cloudfront redirect-unauthenticated-users|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event cloudfront response-generation|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event cloudfront serve-object-on-viewer-device|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event cloudfront simple-remote-call|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudfront ab-test|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudfront access-request-in-response|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudfront http-redirect|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudfront modify-querystring|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudfront modify-response-header|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudfront multiple-remote-calls-aggregate-response|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudfront normalize-querystring-to-improve-cache-hit|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudfront redirect-on-viewer-country|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudfront redirect-unauthenticated-users|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudfront response-generation|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudfront serve-object-on-viewer-device|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudfront simple-remote-call|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def cwinvoke(function, path):
-    subprocess.run("sam local generate-event cloudwatch logs|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event cloudwatch scheduled-event|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudwatch logs|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cloudwatch scheduled-event|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def cognitoinvoke(function, path):
-    subprocess.run("sam local generate-event cognito sync-trigger|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event cognito sync-trigger|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def rekinvoke(function, path):
-    subprocess.run("sam local generate-event rekognition s3-request|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event rekognition s3-request|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def lexinvoke(function, path):
-    subprocess.run("sam local generate-event lex book-car|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event lex book-hotel|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event lex make-appointment|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event lex order-flowers|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event lex book-car|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event lex book-hotel|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event lex make-appointment|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event lex order-flowers|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def kinesisinvoke(function, path):
-    subprocess.run("sam local generate-event kinesis analytics|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event kinesis analytics-compressed|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event kinesis analytics-dynamodb|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event kinesis analytics-kpl|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event kinesis apachelog|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event kinesis cloudwatch-logs-processor|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event kinesis get-records|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event kinesis kinesis-firehose|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event kinesis streams-as-source|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event kinesis syslog|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event kinesis analytics|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event kinesis analytics-compressed|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event kinesis analytics-dynamodb|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event kinesis analytics-kpl|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event kinesis apachelog|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event kinesis cloudwatch-logs-processor|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event kinesis get-records|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event kinesis kinesis-firehose|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event kinesis streams-as-source|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event kinesis syslog|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 
 def configinvoke(function, path):
-    subprocess.run("sam local generate-event config item-change-notification|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event config oversized-item-change-notification|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local generate-event config periodic-rule|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event config item-change-notification|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event config oversized-item-change-notification|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local generate-event config periodic-rule|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def sesinvoke(function, path):
-    subprocess.run("sam local generate-event ses email-receiving|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event ses email-receiving|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def snsinvoke(function, path):
-    subprocess.run("sam local generate-event sns notification|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event sns notification|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def sqsinvoke(function, path):
-    subprocess.run("sam local generate-event sqs receive-message|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event sqs receive-message|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def stepinvoke(function, path):
-    subprocess.run("sam local generate-event stepfunctions error|sam local invoke {} -t {} 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local generate-event stepfunctions error|sam local invoke {} -t {} >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def noneinvoke(function, path):
-    subprocess.run("sam local invoke {} -t {} --no-event 2>>logs.txt".format(function, path), shell=True)
-    subprocess.run("sam local invoke {} -t {} --no-event 2>>logs.txt".format(function, path), shell=True)
+    subprocess.run("sam local invoke {} -t {} --no-event >>logs.txt 2>&1".format(function, path), shell=True)
+    subprocess.run("sam local invoke {} -t {} --no-event >>logs.txt 2>&1".format(function, path), shell=True)
 
 
 def parse(file):

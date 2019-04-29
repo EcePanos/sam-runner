@@ -1,4 +1,4 @@
-### 1st run:  
+### 1st run (no recursion):  
 - *Execution time: 32 minutes*
 - 439 sar entries (Obtained using aws-sar-analysis)  
 - 352 repositories cloned (Rest had no valid github links)  
@@ -11,9 +11,11 @@
 - 1 had bad template (duplicate keys)
 - 14 failed to invoke with no output
 
-### 2nd run:
+### 2nd run (recursive search for template file):
 - *Execution time: 50 minutes*
-- 613 function invocations
+- 447 applications
+- 514 function invocations
+- 115 succeeded 22.37%
 - 96 failed because the code was zipped
 - 65 failed due to missing backend
 - 4 had no template
@@ -23,7 +25,4 @@
 - Ignore event-selecting logic and execute each application with all available Events
 - Possibly higher success rate
 - Potentially 15 times longer execution time (45 events per function instead of 3 on average with selection logic)
-
-
 - Possibly add filter to avoid the AWS sample applications? (They amount to about 35% of the repository)
-- Add stdout to logs?

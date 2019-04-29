@@ -43,8 +43,6 @@ def run_all(diff_file):
                 item[6] = item[6].split('/tree')[0]
             if item[6] not in repos.values():
                 repos.update({item[0]:item[6]})
-    #print(repos)
-
     for key in repos:
         with open('logs.txt','a') as f:
             f.write(str(index) + '\n')
@@ -75,6 +73,7 @@ def run_all(diff_file):
         index+=1
         with open('logs.txt','a') as f:
             f.write('---------------------------' + '\n')
+
     
 if __name__ == '__main__':
     if len(sys.argv) >= 2:
