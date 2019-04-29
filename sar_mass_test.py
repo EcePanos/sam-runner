@@ -26,7 +26,7 @@ def handler(signum, frame):
 
 def run_all(diff_file):
     results = []
-    repos = []
+    repos = {}
     with open(diff_file) as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
@@ -40,41 +40,42 @@ def run_all(diff_file):
     for item in results:
         if 'github' in item[6]:
             if 'tree' in item[6]:
-                item[6] = item[6].split('tree')[0]
-            print(index)
-            print(item[0])
-            if item[6] not in repos:
-                repos.append(item[6])
-                with open('logs.txt','a') as f:
-                    f.write(str(index) + '\n')
-                    f.write(item[0] + '\n')
-                signal.signal(signal.SIGALRM, handler)
-                signal.alarm(40)
-                try:
-                    git.Repo.clone_from(item[6], path)
-                except Exception as exc:
-                    print(exc)
-                signal.alarm(0)
-                template_paths = find('template.*',path)
-                for application in template_paths:
-                    with open('logs.txt','a') as f:
-                        f.write(application + '\n')
-                        f.write(str(index) + '\n')
-                    sam_auto_invoke.autorun(application)
-                    index+=1
-                    with open('logs.txt','a') as f:
-                        f.write('---------------------------' + '\n')
-            if Path('testdata.yaml').exists():
-                os.remove('testdata.yaml')
-            if Path(path).exists():
-                try:
-                    shutil.rmtree(path)
-                except:
-                    path = 'test' + str(index)
+                item[6] = item[6].split('/tree')[0]
+            if item[6] not in repos.values():
+                repos.update({item[0]:item[6]})
+    #print(repos)
+
+    for key in repos:
+        with open('logs.txt','a') as f:
+            f.write(str(index) + '\n')
+            f.write(key + '\n')
+        signal.signal(signal.SIGALRM, handler)
+        signal.alarm(40)
+        try:
+            git.Repo.clone_from(repos[key], path)
+        except Exception as exc:
+            print(exc)
+        signal.alarm(0)
+        template_paths = find('template.*',path)
+        for application in template_paths:
+            with open('logs.txt','a') as f:
+                f.write(application + '\n')
+                f.write(str(index) + '\n')
+            sam_auto_invoke.autorun(application)
+            index+=1
+            with open('logs.txt','a') as f:
+                f.write('---------------------------' + '\n')
+        if Path('testdata.yaml').exists():
+            os.remove('testdata.yaml')
+        if Path(path).exists():
+            try:
+                shutil.rmtree(path)
+            except:
+                path = 'test' + str(index)
         index+=1
         with open('logs.txt','a') as f:
             f.write('---------------------------' + '\n')
-
+    
 if __name__ == '__main__':
     if len(sys.argv) >= 2:
         run_all(sys.argv[1])

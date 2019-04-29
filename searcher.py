@@ -23,14 +23,14 @@ print(app_list)
 # 'Fix' invalid links -> works
 # and avoid duplicates -> may not work
 results=[]
-repos=[]
+repos={}
 with open('autocontents-2019-04-24.csv') as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
         results.append(row)
 for item in results:
     if 'tree' in item[6]:
-        item[6] = item[6].split('tree')[0]
-    if item[6] not in repos:
-        repos.append(item[6])
+        item[6] = item[6].split('/tree')[0]
+    if item[6] not in repos.values():
+        repos.update({item[0]:item[6]})
 print(repos)
